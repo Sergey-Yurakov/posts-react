@@ -15,21 +15,28 @@ interface PostListProps {
 export const PostList = memo((props: PostListProps) => {
     const { data, filter, setFilter } = props;
 
-    const onClickSort = useCallback(() => {
-        if (filter.sort === 'asc') {
-            setFilter({
-                ...filter,
-                sort: 'desc',
-            });
-        } else {
-            setFilter({
-                ...filter,
-                sort: 'asc',
-            });
-        }
-    }, [filter, setFilter]);
+    const onClickSort = useCallback(
+        (typeSort: 'id' | 'title' | 'body') => {
+            if (filter.sort === 'asc') {
+                setFilter({
+                    ...filter,
+                    sort: 'desc',
+                    type: typeSort,
+                });
+            } else {
+                setFilter({
+                    ...filter,
+                    sort: 'asc',
+                    type: typeSort,
+                });
+            }
+        },
+        [filter, setFilter]
+    );
 
-    const sort = useMemo(() => filter.sort === 'desc', [filter.sort]);
+    const sortId = useMemo(() => filter.sort === 'desc' && filter.type === 'id', [filter.sort, filter.type]);
+    const sortTitle = useMemo(() => filter.sort === 'desc' && filter.type === 'title', [filter.sort, filter.type]);
+    const sortBody = useMemo(() => filter.sort === 'desc' && filter.type === 'body', [filter.sort, filter.type]);
 
     return (
         <div className={cl.wrap}>
@@ -37,37 +44,37 @@ export const PostList = memo((props: PostListProps) => {
                 <thead className={cl.thead}>
                     <tr>
                         <td className={cl.idHead}>
-                            <button onClick={onClickSort} className={cl.tdBtn}>
+                            <button onClick={() => onClickSort('id')} className={cl.tdBtn}>
                                 ID
                                 <span className={cl.arrow}>
                                     <img
                                         src={arrowIcon}
                                         alt="arrow icon"
-                                        className={sort ? cl.activeSort : cl.noActiveSort}
+                                        className={sortId ? cl.activeSort : cl.noActiveSort}
                                     />
                                 </span>
                             </button>
                         </td>
                         <td className={cl.titleHead}>
-                            <button onClick={onClickSort} className={cl.tdBtn}>
+                            <button onClick={() => onClickSort('title')} className={cl.tdBtn}>
                                 Заголовок
                                 <span className={cl.arrow}>
                                     <img
                                         src={arrowIcon}
                                         alt="arrow icon"
-                                        className={sort ? cl.activeSort : cl.noActiveSort}
+                                        className={sortTitle ? cl.activeSort : cl.noActiveSort}
                                     />
                                 </span>
                             </button>
                         </td>
                         <td className={cl.bodyHead}>
-                            <button onClick={onClickSort} className={cl.tdBtn}>
+                            <button onClick={() => onClickSort('body')} className={cl.tdBtn}>
                                 Описание
                                 <span className={cl.arrow}>
                                     <img
                                         src={arrowIcon}
                                         alt="arrow icon"
-                                        className={sort ? cl.activeSort : cl.noActiveSort}
+                                        className={sortBody ? cl.activeSort : cl.noActiveSort}
                                     />
                                 </span>
                             </button>

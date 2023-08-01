@@ -36,7 +36,7 @@ export const Posts = memo(() => {
     return (
         <div className={cl.wrapper}>
             <div className={cl.inputWrap}>
-                <input placeholder="Поиск" className={cl.input} onChange={e => onChangeInput(e)} />
+                <input placeholder="Поиск" type="text" className={cl.input} onChange={e => onChangeInput(e)} />
                 <img src={searchIcon} alt="search icon" />
             </div>
             <PostList filter={filter} setFilter={setFilter} data={sortAndSearchData} />

@@ -15,6 +15,7 @@ const LIMIT = 10;
 export type TFilter = {
     input: string;
     sort: 'asc' | 'desc';
+    type?: 'id' | 'title' | 'body';
 };
 
 interface PostsDataProps {
@@ -32,16 +33,16 @@ export const usePostsData = (props: PostsDataProps) => {
     const totalCount = useAppSelector(getPostTotalCount);
 
     const [pageQty, setPageQty] = useState<number>(0);
-    const [filter, setFilter] = useState<TFilter>({ input: '', sort: 'asc' });
+    const [filter, setFilter] = useState<TFilter>({ input: '', sort: 'asc', type: 'id' });
 
-    const sortAndSearchData = usePostsFilter(postsAll, filter.input, filter.sort);
+    const sortAndSearchData = usePostsFilter(postsAll, filter.input, filter.sort, filter.type);
 
     const pagination = useMemo(() => Array.from(Array(pageQty).keys()), [pageQty]);
 
     const prevPage = useCallback(
         (pageCurr: number) => {
             if (page !== pageCurr) {
-                setFilter({ sort: 'asc', input: '' });
+                setFilter({ sort: 'asc', input: '', type: 'id' });
             }
             setPage(page - 1);
         },
@@ -51,7 +52,7 @@ export const usePostsData = (props: PostsDataProps) => {
     const nextPage = useCallback(
         (pageCurr: number) => {
             if (page !== pageCurr) {
-                setFilter({ sort: 'asc', input: '' });
+                setFilter({ sort: 'asc', input: '', type: 'id' });
             }
             setPage(page + 1);
         },
@@ -61,7 +62,7 @@ export const usePostsData = (props: PostsDataProps) => {
     const onClickPage = useCallback(
         (pageCurr: number) => {
             if (page !== pageCurr) {
-                setFilter({ sort: 'asc', input: '' });
+                setFilter({ sort: 'asc', input: '', type: 'id' });
             }
             setPage(pageCurr);
         },
