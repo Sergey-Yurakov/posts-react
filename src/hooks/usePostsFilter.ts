@@ -24,28 +24,18 @@ export const usePostsFilter = (
     const searchPost = useSearchPost(data, search);
 
     const searchDataAndFilter = useMemo(() => {
-        if (sort === 'desc' && type === 'id') {
-            return searchPost?.sort((a, b) => b.id - a.id);
-        }
-
-        if (sort === 'asc' && type === 'id') {
-            return searchPost?.sort((a, b) => a.id - b.id);
-        }
-
-        if (sort === 'desc' && type === 'title') {
-            return searchPost?.sort((a, b) => b.title.localeCompare(a.title));
-        }
-
-        if (sort === 'asc' && type === 'title') {
-            return searchPost?.sort((a, b) => a.title.localeCompare(b.title));
-        }
-
-        if (sort === 'desc' && type === 'body') {
-            return searchPost?.sort((a, b) => b.body.localeCompare(a.body));
-        }
-
-        if (sort === 'asc' && type === 'body') {
-            return searchPost?.sort((a, b) => a.body.localeCompare(b.body));
+        if (type) {
+            searchPost?.sort((a, b) => {
+                const [firstValue, secondValue] = sort === 'desc' ? [b, a] : [a, b];
+                switch (type) {
+                    case 'id':
+                        return firstValue[type] - secondValue[type];
+                    case 'title':
+                    case 'body':
+                    default:
+                        return firstValue?.[type].localeCompare(secondValue?.[type]);
+                }
+            });
         }
 
         return searchPost;
