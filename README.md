@@ -14,7 +14,9 @@
 ### Стек - React, Redux toolkit, Axios, Typescript, Craco, Prettier.
 #### API взято с сайта - https://jsonplaceholder.typicode.com/posts.
 
-Команда для запуска проекта
+### Ссылка на деплой - https://post-site-name.netlify.app
+
+Команда для запуска проекта локально:
 
 ### `npm start`
 
