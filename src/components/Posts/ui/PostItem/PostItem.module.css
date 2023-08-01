@@ -1,0 +1,23 @@
+.idRow {
+    width: 110px;
+    text-align: center;
+}
+
+.titleRow {
+    width: 529px;
+    padding-left: 8px;
+}
+
+.bodyRow {
+    width: 432px;
+    padding: 15px 11px;
+}
+
+@media (max-width: 767px) {
+    .idRow,
+    .titleRow,
+    .bodyRow {
+        width: max-content;
+        padding: 15px;
+    }
+}

@@ -1,0 +1,81 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #E3E6EC;
+}
+
+.wrap {
+    margin: 15px 0;
+}
+
+.thead {
+    background-color: #474955;
+    color: #ffff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 19px;
+}
+
+.idHead {
+    text-align: center;
+    padding: 19px 0 16px 0;
+}
+
+.titleHead button {
+    text-align: left;
+    padding: 19px 0 16px 125px;
+}
+
+.bodyHead button {
+    text-align: left;
+    padding: 19px 0 16px 121px;
+}
+
+.arrow {
+    margin-left: 25px;
+}
+
+.tbody td {
+    border: 1px solid #E3E6EC;
+    color: #474955;
+}
+
+.tbody {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+.tdBtn {
+    width: 100%;
+    color: #ffff;
+}
+
+.activeSort {
+    transform: rotate(180deg);
+}
+
+.noActiveSort {
+    transform: none;
+}
+
+button {
+    border: none;
+    background: none;
+    color: #474955;
+}
+
+@media (max-width: 768px) {
+    .titleHead button,
+    .bodyHead button,
+    .idHead button {
+        padding: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .arrow {
+        margin-left: 10px;
+    }
+}
