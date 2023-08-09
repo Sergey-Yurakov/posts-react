@@ -1,6 +1,5 @@
 import searchIcon from '@/assets/icon/search.svg';
 import { Pagination } from '@/components/Pagination';
-import { postActions } from '@/components/Posts/model/slices/postsSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooksStore';
 import { ChangeEvent, memo, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -15,6 +14,7 @@ import {
 import { getPostError, getPostIsLoading, getPostTotalCount } from '../model/selectors/getPosts/getPosts';
 import { fetchPosts } from '../model/services/fetchPosts/fetchPosts';
 import { filterPostActions } from '../model/slices/filterPostSLice';
+import { postActions } from '../model/slices/postsSlice';
 import { PostList } from './PostList/PostList';
 import cl from './Posts.module.css';
 
