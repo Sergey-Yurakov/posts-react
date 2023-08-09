@@ -10,3 +10,11 @@ export interface PostSchema {
     error?: string;
     totalCount: number;
 }
+
+export type FilterPost = {
+    limit?: number;
+    currentPage?: number;
+    sortOrder: 'asc' | 'desc';
+    typeSort: 'id' | 'title' | 'body';
+    searchValue: string;
+};

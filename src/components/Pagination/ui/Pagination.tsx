@@ -1,51 +1,44 @@
+import { Post } from '@/components/Posts/model/types/postSchema';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import cl from './Pagination.module.css';
 
 interface PaginationProps {
-    pagination: number[];
-    page: number;
+    currentPage: number;
     pageQty: number;
-    prevPage: (page: number) => void;
-    nextPage: (page: number) => void;
-    onClickPage: (page: number) => void;
+    data?: Post[];
 }
 
 export const Pagination = memo((props: PaginationProps) => {
-    const { pagination, page, pageQty, nextPage, prevPage, onClickPage } = props;
+    const { currentPage, pageQty, data } = props;
+
+    if (!data?.length) {
+        return null;
+    }
 
     return (
         <div className={cl.wrap}>
-            <Link
-                to={`/?page=${page - 1}`}
-                onClick={() => prevPage(page - 1)}
-                className={[cl.btn, page === 1 ? cl.disabled : ''].join(' ')}
-            >
+            <Link to={`/?page=${currentPage - 1}`} className={[cl.btn, currentPage === 1 ? cl.disabled : ''].join(' ')}>
                 Назад
             </Link>
             <div className={cl.pagination}>
-                {pagination &&
-                    pagination.map(i => (
-                        <Link
-                            to={`/?page=${i + 1}`}
-                            key={i}
-                            className={page === i + 1 ? cl.activePage : ''}
-                            onClick={() => onClickPage(i + 1)}
-                        >
-                            {i + 1}
-                        </Link>
-                    ))}
+                {Array.from({ length: pageQty }).map((_, index) => (
+                    <Link
+                        to={`/?page=${index + 1}`}
+                        key={index + 1}
+                        className={currentPage === index + 1 ? cl.activePage : ''}
+                    >
+                        {index + 1}
+                    </Link>
+                ))}
             </div>
             <Link
-                to={`?page=${page + 1}`}
-                onClick={() => nextPage(page + 1)}
-                className={[cl.btn, page === pageQty ? cl.disabled : ''].join(' ')}
+                to={`?page=${currentPage + 1}`}
+                className={[cl.btn, currentPage === pageQty ? cl.disabled : ''].join(' ')}
             >
                 Далее
             </Link>
         </div>
     );
 });
-
-// disabled={page === pageQty}

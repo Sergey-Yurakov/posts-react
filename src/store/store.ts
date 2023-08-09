@@ -1,14 +1,12 @@
-import { postReducers } from '@/components/Posts/model/slices/postsSlice';
+import { filterPostReducer } from '@/components/Posts/model/slices/filterPostSLice';
+import { postReducer } from '@/components/Posts/model/slices/postsSlice';
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
     reducer: {
-        posts: postReducers,
+        posts: postReducer,
+        filter: filterPostReducer,
     },
-    middleware: getDefaultMiddleware =>
-        getDefaultMiddleware({
-            serializableCheck: false,
-        }),
 });
 
 export type AppDispatch = typeof store.dispatch;

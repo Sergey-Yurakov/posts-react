@@ -1,15 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
-export const fetchPosts = createAsyncThunk<AxiosResponse, number, { rejectValue: string }>(
+export const fetchPosts = createAsyncThunk<AxiosResponse, void, { rejectValue: string }>(
     'posts/fetchPosts',
-    async (page, { rejectWithValue }) => {
-        const result = await axios.get(`https://jsonplaceholder.typicode.com/posts?`, {
-            params: {
-                _page: page,
-                _limit: 10,
-            },
-        });
+    async (_, { rejectWithValue }) => {
+        const result = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
 
         if (!result.data) {
             return rejectWithValue('Server error');

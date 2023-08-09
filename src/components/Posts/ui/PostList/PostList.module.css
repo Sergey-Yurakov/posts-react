@@ -65,6 +65,11 @@ button {
     color: #474955;
 }
 
+.error {
+    font-size: large;
+    margin-top: 15px;
+}
+
 @media (max-width: 768px) {
     .titleHead button,
     .bodyHead button,
