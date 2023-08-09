@@ -1,6 +1,6 @@
-import { fetchPosts } from '@/components/Posts/model/services/fetchPosts/fetchPosts';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+import { fetchPosts } from '../services/fetchPosts/fetchPosts';
 import { PostSchema } from '../types/postSchema';
 
 const initialState: PostSchema = {
@@ -26,8 +26,8 @@ export const postsSlice = createSlice({
             })
             .addCase(fetchPosts.fulfilled, (state, { payload }) => {
                 state.isLoading = false;
-                state.data = payload.data;
-                state.totalCount = payload.data.length;
+                state.data = payload;
+                state.totalCount = payload.length;
             })
             .addCase(fetchPosts.rejected, (state, { payload }) => {
                 state.isLoading = false;
