@@ -70,6 +70,21 @@ button {
     margin-top: 15px;
 }
 
+.animatedPost-enter {
+    opacity: 0;
+}
+.animatedPost-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+.animatedPost-exit {
+    opacity: 1;
+}
+.animatedPost-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+}
+
 @media (max-width: 768px) {
     .titleHead button,
     .bodyHead button,

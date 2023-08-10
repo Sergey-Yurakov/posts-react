@@ -1,5 +1,7 @@
-import arrowIcon from '@/assets/icon/arrow.svg';
+import { ReactComponent as ArrowIcon } from '@/assets/icon/arrow.svg';
+import Table from '@/components/Table/ui/Table';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooksStore';
+import { classNames as cn } from '@/shared/classNames/classNames';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +10,7 @@ import { filterPostActions } from '../../model/slices/filterPostSLice';
 import { FilterPost, Post } from '../../model/types/postSchema';
 import { PostItem } from '../PostItem/PostItem';
 import cl from './PostList.module.css';
+import { tableHeader } from './mockHeader';
 
 interface PostListProps {
     data?: Post[];
@@ -18,6 +21,17 @@ export const PostList = memo((props: PostListProps) => {
     const dispatch = useAppDispatch();
     const currentSortOrder = useAppSelector(getSortOrder);
     const sortType = useAppSelector(getSortType);
+
+    const onClickSort = ({ typeSort }: Omit<FilterPost, 'searchValue'>) => {
+        dispatch(
+            filterPostActions.setSort({
+                sortOrder: currentSortOrder === 'asc' ? 'desc' : 'asc',
+                typeSort,
+            })
+        );
+    };
+
+    const activeSort = (type: string) => cn('', { [cl.activeSort]: currentSortOrder === 'desc' && sortType === type });
 
     if (!data?.length) {
         return (
@@ -30,77 +44,32 @@ export const PostList = memo((props: PostListProps) => {
         );
     }
 
-    const onClickSort = ({ typeSort }: Omit<FilterPost, 'searchValue'>) => {
-        dispatch(
-            filterPostActions.setSort({
-                sortOrder: currentSortOrder === 'asc' ? 'desc' : 'asc',
-                typeSort,
-            })
-        );
-    };
-
-    const sortId = currentSortOrder === 'desc' && sortType === 'id';
-    const sortTitle = currentSortOrder === 'desc' && sortType === 'title';
-    const sortBody = currentSortOrder === 'desc' && sortType === 'body';
-
     return (
         <div className={cl.wrap}>
-            <table className={cl.table}>
-                <thead className={cl.thead}>
+            <Table className={cl.table}>
+                <Table.Head className={cl.thead}>
                     <tr>
-                        <td className={cl.idHead}>
-                            <button
-                                onClick={() => onClickSort({ sortOrder: 'desc', typeSort: 'id' })}
-                                className={cl.tdBtn}
-                            >
-                                ID
-                                <span className={cl.arrow}>
-                                    <img
-                                        src={arrowIcon}
-                                        alt="arrow icon"
-                                        className={sortId ? cl.activeSort : cl.noActiveSort}
-                                    />
-                                </span>
-                            </button>
-                        </td>
-                        <td className={cl.titleHead}>
-                            <button
-                                onClick={() => onClickSort({ sortOrder: 'desc', typeSort: 'title' })}
-                                className={cl.tdBtn}
-                            >
-                                Заголовок
-                                <span className={cl.arrow}>
-                                    <img
-                                        src={arrowIcon}
-                                        alt="arrow icon"
-                                        className={sortTitle ? cl.activeSort : cl.noActiveSort}
-                                    />
-                                </span>
-                            </button>
-                        </td>
-                        <td className={cl.bodyHead}>
-                            <button
-                                onClick={() => onClickSort({ sortOrder: 'desc', typeSort: 'body' })}
-                                className={cl.tdBtn}
-                            >
-                                Описание
-                                <span className={cl.arrow}>
-                                    <img
-                                        src={arrowIcon}
-                                        alt="arrow icon"
-                                        className={sortBody ? cl.activeSort : cl.noActiveSort}
-                                    />
-                                </span>
-                            </button>
-                        </td>
+                        {tableHeader.map(({ name, type, className, id }) => (
+                            <td className={className} key={id}>
+                                <button
+                                    className={cl.tdBtn}
+                                    onClick={() => onClickSort({ sortOrder: 'desc', typeSort: type })}
+                                >
+                                    {name}
+                                    <span className={cl.arrow}>
+                                        <ArrowIcon className={activeSort(type)} />
+                                    </span>
+                                </button>
+                            </td>
+                        ))}
                     </tr>
-                </thead>
-                <tbody className={cl.tbody}>
-                    {data?.map(post => (
-                        <PostItem key={post.id} id={post.id} title={post.title} body={post.body} />
+                </Table.Head>
+                <Table.Body className={cl.tbody}>
+                    {data?.map(({ id, title, body }) => (
+                        <PostItem key={id} id={id} title={title} body={body} />
                     ))}
-                </tbody>
-            </table>
+                </Table.Body>
+            </Table>
         </div>
     );
 });
