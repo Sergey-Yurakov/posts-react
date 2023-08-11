@@ -2,7 +2,8 @@ import { ReactComponent as ArrowIcon } from '@/assets/icon/arrow.svg';
 import Table from '@/components/Table/ui/Table';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooksStore';
 import { classNames as cn } from '@/shared/classNames/classNames';
-import { memo } from 'react';
+import { memo, useRef } from 'react';
+import FlipMove from 'react-flip-move';
 import { Link } from 'react-router-dom';
 
 import { getSortOrder, getSortType } from '../../model/selectors/filtersPost/filtersPost';
@@ -17,6 +18,7 @@ interface PostListProps {
 }
 
 export const PostList = memo((props: PostListProps) => {
+    const ref = useRef(null);
     const { data } = props;
     const dispatch = useAppDispatch();
     const currentSortOrder = useAppSelector(getSortOrder);
@@ -65,9 +67,11 @@ export const PostList = memo((props: PostListProps) => {
                     </tr>
                 </Table.Head>
                 <Table.Body className={cl.tbody}>
-                    {data?.map(({ id, title, body }) => (
-                        <PostItem key={id} id={id} title={title} body={body} />
-                    ))}
+                    <FlipMove typeName={null} duration={500}>
+                        {data?.map(({ id, title, body }) => (
+                            <PostItem ref={ref} key={id} id={id} title={title} body={body} />
+                        ))}
+                    </FlipMove>
                 </Table.Body>
             </Table>
         </div>
